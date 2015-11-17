@@ -3,9 +3,16 @@ function arcascii2nc(meta)
 %read the metadata
 if ~exist('arcgridread','file')
     [x,y,z] = arc_asc_read([meta.pathname,meta.filename]);
+    x=x-diff(x(1:2))/2; %x and y should be on corners, not centers
+    y=y+diff(y(1:2))/2;
 else
     [z,r]=arcgridread([meta.pathname,meta.filename]);
-    [x,y]=pixcenters(r,size(z));
+    [x,y]=pixcenters(r,size(z)); 
+    %x and y should be on grid corners, not centers
+    x=x-diff(x(1:2))/2;
+    y=y+diff(y(1:2))/2;
+    
+    
 end
 
 [path,file,ext]=fileparts([meta.pathname,meta.filename]); %#ok
