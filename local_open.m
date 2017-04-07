@@ -80,9 +80,16 @@ switch gd.ftype
         
         
         %need to parse metadata in a xml struct
+        info = h5info(fullfile(pathname,filename),'/BAG_root/metadata');
         mdata = h5read(fullfile(pathname,filename),'/BAG_root/metadata');
         
-        stream = java.io.StringBufferInputStream(cat(2,mdata{:}));
+        mstr=cat(2,mdata{:});
+        if ~isempty(info.FillValue)
+            idx=strfind(mstr,info.FillValue);
+            mstr(idx)=[];
+        end
+        
+        stream = java.io.StringBufferInputStream(mstr);
         factory = javaMethod('newInstance', ...
             'javax.xml.parsers.DocumentBuilderFactory');
         builder = factory.newDocumentBuilder;

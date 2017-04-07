@@ -34,6 +34,9 @@ switch gd.cval
         ameland=load('ameland');
         gd.cmap=ameland.map;
     case 11
+        sgmap=load('sgmap');
+        gd.cmap=sgmap.sgmap;
+    case 12
         gd.cmap=[];
 end
 
